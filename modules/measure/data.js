@@ -6,4 +6,6 @@ node.append(0).append(t_minutespassed);
 
 node.append("").append(t_activity);
 
-node.append("").append(t_endtime);// <!-- one.end -->
+node.append("").append(t_endtime);
+
+node.append(false).append(t_finalized);// <!-- one.end -->
