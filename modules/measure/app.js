@@ -4,10 +4,10 @@ var priv = {};
 priv.calculateMinutesPassed = function() {
     var startTime = node.select(t_starttime).get();
     if (startTime === null) {
-        return 0;
+        return 0.0;
     }
     
-    return (new Date().getTime() - startTime.getTime()) / (1000 * 60);
+    return (new Date().getTime() - startTime.value().getTime()) / (1000 * 60);
 };
 
 priv.initForm = function(cb) {
@@ -22,7 +22,8 @@ priv.initForm = function(cb) {
         });
     });
     
-    $(".finalizeBtn", elem).click(function() {
+    $(".submitBtn", elem).click(function(evt) {
+        evt.preventDefault();
         $("mainBtn", elem).attr('disabled', 'disabled');
         node.select(t_finalized).setValue(true);
         
@@ -36,8 +37,8 @@ priv.initForm = function(cb) {
         
     });
     
-    $(".discardBtn", elem).click(function() {
-        
+    $(".discardBtn", elem).click(function(evt) {
+        evt.preventDefault();
     });
     
     priv.updateForm(cb);
@@ -51,18 +52,24 @@ priv.updateForm = function(cb) {
     
     
     node.select(t_finalized).get(function(isFinalized) {
-        if (!isFinalized.value()) {
+        if (isFinalized.value().valueOf() === false) {
             $(".finalizedGroup", elem).hide();
-            
-            $(".minutesIn", elem).val(priv.calculateMinutesPassed());
-            
+
+            $(".minutesIn", elem).val(priv.calculateMinutesPassed().toString().substring(0, 5));
+            cb();
             return;  
         } 
-        $("mainBtn", elem).attr('disabled', 'disabled');
+        $(".mainBtn", elem).attr('disabled', 'disabled');
         $(".finalizedGroup", elem).show();
+        $(".finalizeGroup", elem).hide();
+        
+        node.select(t_minutespassed).get(function(minutesPassed) {
+             $(".minutesIn", elem).val(minutesPassed.value().toString().substring(0, 5));
+        });
         
         node.select(t_endtime).get(function(endTime) {
             $(".endTimeIn", elem).val(endTime.value()); 
+            cb();
         });
     });
     
@@ -70,8 +77,11 @@ priv.updateForm = function(cb) {
 };
 
 priv.initForm(function(ex) {
-    var autoUpdate = timer.setInterval(function() {
+    var autoUpdate = setInterval(function() {
         priv.updateForm(function(ex) {});
-    }, 1000); 
+    }, 1000, 1000); 
+    container.onClose(function(cb) {
+       clearInterval(autoUpdate); 
+    });
 });
 // <!-- one.end -->
