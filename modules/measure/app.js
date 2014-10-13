@@ -53,11 +53,13 @@ priv.initForm = function(cb) {
         
     });
     
+    
     priv.updateForm(cb);
     
 };
 
 priv.updateForm = function(cb) {
+   
     node.select(t_starttime).get(function(startTime) {
         $(".startTimeIn", elem).val(startTime.value().toString()); 
     });
@@ -67,34 +69,35 @@ priv.updateForm = function(cb) {
     var discardedQry = node.select(t_discarded);
     
     session.getAll(finalizedQry, discardedQry, function(isFinalized, isDiscarded) {
-         $(".finalizedGroup", elem).hide();
-            $(".finalizeGroup", elem).hide();
-            $(".discardedGroup", elem).hidw();
-        
-        if (isDiscarded.value().valueOf() === true) {
+        $(".finalizedGroup", elem).hide();
+        $(".finalizeGroup", elem).hide();
+        $(".discardedGroup", elem).hide();
 
+        if (isDiscarded.value().valueOf() === true) {
+            
             $(".discardedGroup", elem).show();
-           
+            
             cb();
             return;
         }
         if (isFinalized.value().valueOf() === false) {
-
+            $(".finalizeGroup", elem).show();
             $(".minutesIn", elem).val(priv.calculateMinutesPassed().toString().substring(0, 5));
             cb();
             return;  
         } 
         $(".mainBtn", elem).attr('disabled', 'disabled');
         $(".finalizedGroup", elem).show();
-        
+
         node.select(t_minutespassed).get(function(minutesPassed) {
-             $(".minutesIn", elem).val(minutesPassed.value().toString().substring(0, 5));
+            $(".minutesIn", elem).val(minutesPassed.value().toString().substring(0, 5));
         });
         
         node.select(t_endtime).get(function(endTime) {
             $(".endTimeIn", elem).val(endTime.value()); 
             cb();
         });
+
     });
     
     
@@ -105,7 +108,7 @@ priv.initForm(function(ex) {
         priv.updateForm(function(ex) {});
     }, 1000, 1000); 
     container.onClose(function(cb) {
-       clearInterval(autoUpdate); 
+        clearInterval(autoUpdate); 
         cb();
     });
 });
