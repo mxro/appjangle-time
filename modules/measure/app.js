@@ -31,6 +31,7 @@ priv.initForm = function(cb) {
         
         node.select(t_minutespassed).setValue(priv.calculateMinutesPassed());
         
+        
         session.commit().get(function() {
             priv.updateForm(function(ex) {});
         });
