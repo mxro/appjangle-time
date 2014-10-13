@@ -13,7 +13,9 @@ node.append("").append(t_endtime);
 
 node.append(false).append(t_finalized);
 
-var label = now.getYear()+"-"+(now.getMonth()+1)+"-"+now.getDate()+" "+now.getHours()+":"+now.getMinutes();
+node.append(false).append(t_discarded);
+
+var label = ""+now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate()+" "+now.getHours()+":"+now.getMinutes();
 
 node.append(label).append(t_label);
 

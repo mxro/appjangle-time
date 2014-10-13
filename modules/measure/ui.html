@@ -2,13 +2,13 @@
     <div class="form-group">
         <label for="started" class="col-sm-2 control-label">Start Time</label>
         <div class="col-sm-10">
-            <input type="text" class="startTimeIn form-control" id="started" readonly placeholder="Start Time ...">
+            <input type="text" class="startTimeIn form-control" id="started" readonly placeholder="Start Time ..." style="background-color: white">
         </div>
     </div>
     <div class="form-group">
         <label for="minutes" class="col-sm-2 control-label">Minutes Passed</label>
         <div class="col-sm-10">
-            <input type="text" class="minutesIn form-control" id="minutes" readonly placeholder="Minutes passed ...">
+            <input type="text" class="minutesIn form-control" id="minutes" readonly placeholder="Minutes passed ..." style="background-color: white">
         </div>
     </div>
     <div class="form-group">
@@ -24,17 +24,33 @@
         <div class="form-group">
             <label for="ended" class="col-sm-2 control-label">End Time</label>
             <div class="col-sm-10">
-                <input type="text" class="endTimeIn form-control" id="ended" readonly placeholder="End Time ...">
+                <input type="text" class="endTimeIn form-control" id="ended" readonly placeholder="End Time ..." style="background-color: white">
             </div>
         </div>
     </div>
-    
-    
+    <div class="finalizeGroup" style="padding-top: 10px;">
+        <div class="form-group">
+            
+            <div class="btn-toolbar col-sm-offset-2" role="toolbar" style="padding-left: 15px">
+                <div class="btn-group">
+                    <button class="submitBtn btn  btn-success mainBtn"><span class="glyphicon glyphicon-ok"></span> Finalize and Submit
+                    </button>
+                </div>
+                <div class="btn-group">
+                    <button class="discardBtn btn  btn-danger mainBtn"><span class="glyphicon glyphicon-trash"></span> Discard
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="discardedGroup" style="padding-top: 10px; display: none;">
+         <div class="form-group">
+            
+            <div  style="padding-left: 15px">
+                <div class="alert alert-warning" role="alert"><b>Discarded!</b> This measurement has been discarded.</div>
+            </div>
+        </div>
+    </div>
 </form>
 
-<div class="finalizeGroup">
-    <div class="btn-toolbar" role="toolbar">
-        <div class="btn-group"><button class="submitBtn btn btn-success mainBtn btn-lg">Finalize and Submit</button></div>
-        <div class="btn-group"><button class="discardBtn btn btn-danger mainBtn btn-lg">Discard</button></div>
-    </div>
-</div><!-- one.end -->
+<!-- one.end -->

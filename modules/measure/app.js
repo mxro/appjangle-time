@@ -39,6 +39,17 @@ priv.initForm = function(cb) {
     
     $(".discardBtn", elem).click(function(evt) {
         evt.preventDefault();
+        
+        $("mainBtn", elem).attr('disabled', 'disabled');
+        
+        node.select(t_label).get(function(label) {
+            label.setValue("Discarded: "+label.value()) ;
+        });
+        
+        node.select(t_discarded).setValueSafe(true).get(function() {
+            priv.updateForm(function(ex) {}); 
+        });
+        
     });
     
     priv.updateForm(cb);
@@ -50,10 +61,23 @@ priv.updateForm = function(cb) {
         $(".startTimeIn", elem).val(startTime.value().toString()); 
     });
     
+    var finalizedQry = node.select(t_finalized);
     
-    node.select(t_finalized).get(function(isFinalized) {
+    var discardedQry = node.select(t_discarded);
+    
+    session.getAll(finalizedQry, discardedQry, function(isFinalized, isDiscarded) {
+         $(".finalizedGroup", elem).hide();
+            $(".finalizeGroup", elem).hide();
+            $(".discardedGroup", elem).hidw();
+        
+        if (isDiscarded.value().valueOf() === true) {
+
+            $(".discardedGroup", elem).show();
+           
+            cb();
+            return;
+        }
         if (isFinalized.value().valueOf() === false) {
-            $(".finalizedGroup", elem).hide();
 
             $(".minutesIn", elem).val(priv.calculateMinutesPassed().toString().substring(0, 5));
             cb();
@@ -61,7 +85,6 @@ priv.updateForm = function(cb) {
         } 
         $(".mainBtn", elem).attr('disabled', 'disabled');
         $(".finalizedGroup", elem).show();
-        $(".finalizeGroup", elem).hide();
         
         node.select(t_minutespassed).get(function(minutesPassed) {
              $(".minutesIn", elem).val(minutesPassed.value().toString().substring(0, 5));
@@ -82,6 +105,7 @@ priv.initForm(function(ex) {
     }, 1000, 1000); 
     container.onClose(function(cb) {
        clearInterval(autoUpdate); 
+        cb();
     });
 });
 // <!-- one.end -->
